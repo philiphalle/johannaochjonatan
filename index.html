@@ -4,40 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Johanna & Jonatan - Vårt Bröllop</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
 </head>
 <body>
     <header>
         <h1 class="fade-in">Johanna & Jonatan</h1>
-        <p class="fade-in">Vi gifter oss den 20 juli 2025</p>
+        <p class="fade-in">Vi gifter oss den 13 juni 2026</p>
         <div id="countdown" class="fade-in"></div>
     </header>
+    
+    <div class="body">
+        <section class="max-width" id="details">
+            <h2>Bröllopsdetaljer</h2>
+            <p><strong>Datum:</strong>13 juni 2026</p>
+            <p><strong>Plats:</strong>Villa Baro, Åtvidaberg</p>
+            <p><strong>Tid:</strong>15:00</p>
+            <p><strong>Klädkod:</strong>Kostym</p>
+            <p><strong>OSA:</strong>Senast 1 december 2025</p>
+        </section>
+        
+        <section class="max-width-gallery" id="gallery">
+            <h2>Vår Kärlekshistoria</h2>
+            <div class="gallery">
+                <!-- Images 1 to 13 -->
+                <img src="images/1.jpg" class="scroll-image">
+                <img src="images/2.jpg" class="scroll-image">
+                <img src="images/3.jpg" class="scroll-image">
+                <img src="images/4.jpg" class="scroll-image">
+                <img src="images/5.jpg" class="scroll-image">
+                <img src="images/6.jpg" class="scroll-image">
+                <img src="images/7.jpg" class="scroll-image">
+                <img src="images/8.jpg" class="scroll-image">
+                <img src="images/9.jpg" class="scroll-image">
+                <img src="images/10.jpg" class="scroll-image">
+                <img src="images/11.jpg" class="scroll-image">
+                <img src="images/12.jpg" class="scroll-image">
+                <img src="images/13.jpg" class="scroll-image">
+            </div>
+        </section>
 
-    <section id="details">
-        <h2>Bröllopsdetaljer</h2>
-        <p><strong>Datum:</strong> 20 juli 2025</p>
-        <p><strong>Plats:</strong> Stockholm, Sverige</p>
-        <p><strong>Tid:</strong> 15:00</p>
-        <p><strong>OSA:</strong> Senast 1 juni 2025</p>
-    </section>
-
-    <section id="gallery">
-        <h2>Vår Kärlekshistoria</h2>
-        <div class="gallery">
-            <img src="img1.jpg" alt="Johanna & Jonatan" class="fade-in">
-            <img src="img2.jpg" alt="Romantisk kväll" class="fade-in">
-            <img src="img3.jpg" alt="Förlovning" class="fade-in">
+        <!-- Image Lightbox -->
+        <div id="lightbox" class="lightbox">
+            <span class="close">&times;</span>
+            <img class="lightbox-img" id="lightbox-img">
         </div>
-    </section>
-
-    <section id="contact">
-        <h2>Kontakt</h2>
-        <p>Har du frågor? Kontakta oss på <strong>johannajonatan@brollop.se</strong></p>
-    </section>
-
+        
+        <section class="max-width" id="contact">
+            <h2>Kontakt</h2>
+            <p>Har du frågor? Kontakta oss på <strong>johannajonatan@gmail.se</strong></p>
+        </section>
+        
+    </div>
     <footer>
         <p>Vi ser fram emot att fira vår stora dag med dig!</p>
+        <button id="helmet-button" class="helmet-button">🏎️</button>
+        <audio id="race-song" src="audio/f1.mp3"></audio>
     </footer>
 </body>
 </html>
