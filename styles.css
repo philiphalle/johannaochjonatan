@@ -5,10 +5,55 @@ body {
     margin: 0;
     padding: 0;
 }
-header {
+/* header {
     background: #374a51;
     color: white;
     padding: 50px 20px;
+} */
+
+header {
+    position: relative;
+    height: 150px; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #374a51; /* Background color */
+    color: white;
+    overflow: hidden;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/villabaro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.2; /* Set image opacity */
+
+ /* Make the fade-out happen earlier */
+ mask-image: linear-gradient(
+    to right, 
+    rgba(55, 74, 81, 0) 5%,  /* Fully transparent at 5% */
+    rgba(55, 74, 81, 1) 25%, /* Fully visible from 25% */
+    rgba(55, 74, 81, 1) 75%, /* Fully visible until 75% */
+    rgba(55, 74, 81, 0) 95%  /* Starts fading again at 75%, fully transparent at 95% */
+);
+
+-webkit-mask-image: linear-gradient(
+    to right, 
+    rgba(55, 74, 81, 0) 5%,  
+    rgba(55, 74, 81, 1) 25%, 
+    rgba(55, 74, 81, 1) 75%, 
+    rgba(55, 74, 81, 0) 95%  
+);
 }
 .fade-in {
     opacity: 0;
@@ -87,6 +132,12 @@ footer {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* Make the first image visible immediately */
+.scroll-image:first-child {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Alternate sizes for variation */
