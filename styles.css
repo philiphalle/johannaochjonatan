@@ -125,6 +125,7 @@ footer {
 }
 
 /* Image styling */
+/* Ensure images are hidden by default */
 .scroll-image {
     width: 80%;
     max-width: 1000px;
@@ -132,10 +133,30 @@ footer {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 1s ease-out, transform 1s ease-out;
+    will-change: opacity, transform;
 }
 
-/* Make the first image visible immediately */
+/* Prevent images from appearing when menu is open */
+/* .menu.active ~ .gallery .scroll-image {
+    opacity: 0 !important;
+    transform: translateY(50px);
+} */
+
+/* Hide images completely when the menu is open */
+/* .menu.active ~ .body .gallery {
+    display: none !important;
+} */
+ 
+
+
+/* Make first image visible immediately */
 .scroll-image:first-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reveal images only when they are in view */
+.scroll-image.visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -208,4 +229,108 @@ footer {
 
 .scroll-image:hover {
     transform: scale(1.05);
+}
+
+
+
+/* Hamburger Menu (Right Side) */
+/* Make the hamburger menu sticky */
+.hamburger {
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: fixed;  /* Keeps it in place */
+    top: 10px;        /* Distance from the top */
+    right: 10px;      /* Distance from the right */
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+/* Slightly enlarge the icon on hover */
+.hamburger:hover {
+    transform: scale(1.3);
+}
+
+/* Make sure it's visible above the menu */
+.menu {
+    z-index: 1000;
+}
+
+/* Flyout Menu (Slides in from the Right) */
+.menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Initially hidden */
+    width: 250px;
+    height: 100%;
+    background: rgba(55, 74, 81, 0.95);
+    backdrop-filter: blur(10px);
+    transition: right 0.3s ease-in-out;
+    text-align: center;
+    z-index: 1000; /* Ensures menu is above everything */
+}
+
+/* Close Button inside Menu */
+.close-menu {
+    font-size: 40px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+.close-menu:hover {
+    color: #f1c40f;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.menu li {
+    margin: 20px 0;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    transition: color 0.3s ease-in-out;
+}
+
+.menu a:hover {
+    color: #f1c40f;
+}
+
+/* Show menu when active */
+.menu.active {
+    right: 0;
+}
+
+/* Fullscreen Menu on Mobile */
+@media (max-width: 768px) {
+    .menu {
+        width: 100%;
+        right: -100%;
+        height: 100vh;
+        text-align: center;
+    }
+
+    .menu ul {
+        padding-top: 80px;
+    }
+
+    .menu li {
+        margin: 30px 0;
+    }
+}
+/* Prevent scrolling when menu is active */
+body.menu-open {
+    overflow: hidden;
 }

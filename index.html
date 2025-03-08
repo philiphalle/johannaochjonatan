@@ -16,11 +16,24 @@
     <meta property="og:url" content="https://philiphalle.github.io/johannaochjonatan">
 </head>
 <body>
+    <!-- Hamburger Menu -->
     <header>
+        <button id="menu-toggle" class="hamburger">☰</button>
         <h1 class="fade-in">Johanna & Jonatan</h1>
         <p class="fade-in">Vi gifter oss den 13 juni 2026</p>
         <div id="countdown" class="fade-in"></div>
     </header>
+
+    <!-- Flyout Navigation -->
+    <nav id="menu" class="menu">
+        <button id="close-menu" class="close-menu">&times;</button>
+        <ul>
+            <li><a href="#start">Start</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+            <li><a href="#gallery">Bilder</a></li>
+            <li><a href="#trivia">Trivia</a></li>
+        </ul>
+    </nav>
     
     <div class="body">
         <section class="max-width" id="details">
@@ -35,7 +48,6 @@
         <section class="max-width-gallery" id="gallery">
             <h2>Vår kärlekshistoria</h2>
             <div class="gallery">
-                <!-- Images 1 to 13 -->
                 <img src="images/1.jpg" class="scroll-image">
                 <img src="images/2.jpg" class="scroll-image">
                 <img src="images/3.jpg" class="scroll-image">

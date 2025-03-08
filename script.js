@@ -72,3 +72,82 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+// hamburger and menu
+document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.getElementById("menu-toggle");
+    const closeMenu = document.getElementById("close-menu");
+    const menu = document.getElementById("menu");
+    const gallery = document.querySelector(".gallery");
+
+    let isMenuOpen = false; // Track menu state
+
+    // Open menu
+    menuToggle.addEventListener("click", function () {
+        menu.classList.add("active");
+        isMenuOpen = true;
+    });
+
+    // Close menu
+    closeMenu.addEventListener("click", function () {
+        menu.classList.remove("active");
+        isMenuOpen = false;
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".menu a").forEach(link => {
+        link.addEventListener("click", function () {
+            menu.classList.remove("active");
+            isMenuOpen = false;
+        });
+    });
+});
+
+// stop scrolling when menu is open
+document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.getElementById("menu-toggle");
+    const closeMenu = document.getElementById("close-menu");
+    const menu = document.getElementById("menu");
+
+    // Open menu
+    menuToggle.addEventListener("click", function () {
+        menu.classList.add("active");
+        document.body.classList.add("menu-open"); // Disable scrolling
+    });
+
+    // Close menu
+    closeMenu.addEventListener("click", function () {
+        menu.classList.remove("active");
+        document.body.classList.remove("menu-open"); // Re-enable scrolling
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".menu a").forEach(link => {
+        link.addEventListener("click", function () {
+            menu.classList.remove("active");
+            document.body.classList.remove("menu-open"); // Re-enable scrolling
+        });
+    });
+});
+
+// Change color of hamburger menu when scrolling past the header
+document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById("menu-toggle");
+    const header = document.querySelector("header");
+    
+    function updateHamburgerColor() {
+        const headerBottom = header.offsetHeight; // Get header height
+
+        if (window.scrollY > headerBottom) {
+            hamburger.style.color = "#374a51"; // Change color when scrolled past the header
+        } else {
+            hamburger.style.color = "white"; // Default color in header
+        }
+    }
+
+    // Run function on scroll
+    window.addEventListener("scroll", updateHamburgerColor);
+    
+    // Run on page load in case the page is already scrolled down
+    updateHamburgerColor();
+});
