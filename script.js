@@ -76,3 +76,30 @@ document.addEventListener("DOMContentLoaded", () => {
         carousel.innerHTML = images + images; // Duplicate for seamless loop
     }
 });
+
+// OSA Modal functionality
+document.addEventListener("DOMContentLoaded", () => {
+    const openButton = document.getElementById("open-osa-form");
+    const modal = document.getElementById("osa-modal");
+    const closeButton = document.getElementById("close-modal");
+
+    // Open modal
+    openButton.addEventListener("click", () => {
+        modal.classList.add("active");
+        document.body.classList.add("menu-open");
+    });
+
+    // Close modal with button
+    closeButton.addEventListener("click", () => {
+        modal.classList.remove("active");
+        document.body.classList.remove("menu-open");
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.classList.remove("active");
+            document.body.classList.remove("menu-open");
+        }
+    });
+});

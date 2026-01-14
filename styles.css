@@ -252,6 +252,153 @@ header p {
     margin-bottom: 25px;
 }
 
+/* OSA Section */
+.osa-section {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.osa-section h2 {
+    color: #222;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.osa-deadline {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.osa-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.osa-button:hover {
+    background: #444;
+    transform: scale(1.02);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-content iframe {
+    display: block;
+    width: 100%;
+    height: 85vh;
+    border: none;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 35px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #222;
+}
+
+.overnight-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.overnight-info h3 {
+    color: #222;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.overnight-info p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.osa-info {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.children-note {
+    font-size: 1rem;
+    color: #333;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.gift-info {
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 5px;
+}
+
+.gift-info h3 {
+    color: #222;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.gift-info p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.swish-info {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
 /* Footer */
 footer {
     background: white;
