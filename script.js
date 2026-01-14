@@ -1,6 +1,6 @@
 // Countdown timer
 function updateCountdown() {
-    const weddingDate = new Date("2026-08-15").getTime();
+    const weddingDate = new Date("2026-08-15T14:00:00").getTime();
     const now = new Date().getTime();
     const difference = weddingDate - now;
 
