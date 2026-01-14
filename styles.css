@@ -138,6 +138,13 @@ header p {
     padding: 60px 20px;
 }
 
+.schema-section h2,
+.schema-section .schema-item {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .schema-section h2 {
     color: #222;
     font-size: 2rem;
