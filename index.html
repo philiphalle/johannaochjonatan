@@ -6,76 +6,122 @@
     <title>Johanna & Jonatan - Vårt Bröllop</title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <script defer src="script.js"></script>
     <meta property="og:title" content="Johanna & Jonatan - Vårt Bröllop">
-    <meta property="og:description" content="Vi gifter oss den 13 juni 2026 – Kom och fira med oss!">
-    <meta property="og:image" content="https://philiphalle.github.io/johannaochjonatan/images/1.jpg">
-    <meta property="og:image:width" content="3024">
-    <meta property="og:image:height" content="4032">
+    <meta property="og:description" content="Vi gifter oss den 15 augusti 2026 – Kom och fira med oss!">
+    <meta property="og:image" content="https://philiphalle.github.io/johannaochjonatan/images/carousel/image0.jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="800">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://philiphalle.github.io/johannaochjonatan">
 </head>
 <body>
     <!-- Hamburger Menu -->
-    <header>
-        <button id="menu-toggle" class="hamburger">☰</button>
-        <h1 class="fade-in">Johanna & Jonatan</h1>
-        <p class="fade-in">Vi gifter oss den 13 juni 2026</p>
-        <div id="countdown" class="fade-in"></div>
-    </header>
+    <button id="menu-toggle" class="hamburger">☰</button>
 
     <!-- Flyout Navigation -->
     <nav id="menu" class="menu">
         <button id="close-menu" class="close-menu">&times;</button>
         <ul>
             <li><a href="#start">Start</a></li>
-            <li><a href="#contact">Kontakt</a></li>
-            <li><a href="#gallery">Bilder</a></li>
-            <li><a href="#trivia">Trivia</a></li>
+            <li><a href="#info">Information</a></li>
+            <li><a href="#schema">Schema</a></li>
+            <li><a href="#kladkod">Klädkod</a></li>
+            <li><a href="#historia">Vår historia</a></li>
         </ul>
     </nav>
-    
-    <div class="body">
-        <section class="max-width" id="details">
-            <h2>Bröllopsdetaljer</h2>
-            <p><strong>Datum: </strong>13 juni 2026</p>
-            <p><strong>Plats: </strong>Villa Baro, Åtvidaberg</p>
-            <p><strong>Tid: </strong>15:00</p>
-            <p><strong>Klädkod: </strong>Kostym</p>
-            <p><strong>OSA: </strong>Senast 1 december 2025</p>
-        </section>
-        
-        <section class="max-width-gallery" id="gallery">
-            <h2>Vår kärlekshistoria</h2>
-            <div class="gallery">
-                <img src="images/1.jpg" class="scroll-image">
-                <img src="images/2.jpg" class="scroll-image">
-                <img src="images/3.jpg" class="scroll-image">
-                <img src="images/4.jpg" class="scroll-image">
-                <img src="images/5.jpg" class="scroll-image">
-                <img src="images/6.jpg" class="scroll-image">
-                <img src="images/7.jpg" class="scroll-image">
-                <img src="images/8.jpg" class="scroll-image">
-                <img src="images/9.jpg" class="scroll-image">
-                <img src="images/10.jpg" class="scroll-image">
-                <img src="images/11.jpg" class="scroll-image">
-                <img src="images/12.jpg" class="scroll-image">
-                <img src="images/13.jpg" class="scroll-image">
-            </div>
-        </section>
 
-        <!-- Image Lightbox -->
-        <div id="lightbox" class="lightbox">
-            <span class="close">&times;</span>
-            <img class="lightbox-img" id="lightbox-img">
+    <!-- Header Section -->
+    <header id="start">
+        <h1 class="fade-in">Johanna & Jonatan</h1>
+        <p class="fade-in">15 augusti 2026</p>
+        <div id="countdown" class="fade-in"></div>
+    </header>
+
+    <!-- Horizontal Carousel -->
+    <section class="carousel-section">
+        <div class="carousel-text">Vi gifter oss!</div>
+        <div class="carousel">
+            <img src="images/carousel/image0.jpeg" alt="Bild 1">
+            <img src="images/carousel/image1.jpeg" alt="Bild 2">
+            <img src="images/carousel/image2.jpg" alt="Bild 3">
+            <img src="images/carousel/image3.jpg" alt="Bild 4">
+            <img src="images/carousel/image4.jpg" alt="Bild 5">
+            <img src="images/carousel/image5.jpg" alt="Bild 6">
+            <img src="images/carousel/image6.jpg" alt="Bild 7">
+            <img src="images/carousel/image10.jpeg" alt="Bild 8">
+            <img src="images/carousel/image12.jpeg" alt="Bild 9">
         </div>
-        
-        <section class="max-width" id="contact">
-            <h2>Kontakt</h2>
-            <p>Har du frågor? Kontakta oss på <strong>johannajonatan@gmail.se</strong></p>
-        </section>
-        
-    </div>
+    </section>
+
+    <!-- Info Section -->
+    <section id="info" class="info-section">
+        <h2>Välkomna till vårt bröllop!</h2>
+        <p>Det är äntligen dags hörrni! 15/8 2026 är du inbjuden till Johanna och Jonatans bröllop.</p>
+        <p><strong>När:</strong> 15/8-2026</p>
+        <p><strong>Plats:</strong> Kuseboholm gård, <a href="https://maps.google.com/?q=Kuseboholm+gård" target="_blank">Google maps-karta</a></p>
+        <p><strong>Mat:</strong> Serveras av Restaurang Jord</p>
+    </section>
+
+    <!-- Schema Section -->
+    <section id="schema" class="schema-section">
+        <h2>Schema för bröllopet</h2>
+        <div class="schema-item"><strong>13:30</strong> Ankomst Kuseboholm Gård</div>
+        <div class="schema-item"><strong>14:00</strong> Vigsel</div>
+        <div class="schema-item"><strong>17:00</strong> Middag</div>
+        <div class="schema-item"><strong>01:00</strong> Avfärd till avsedda sovplatser med buss. Om övernattning inte är aktuellt ordnar man hemfärd på egen hand.</div>
+        <div class="schema-item"><strong>09:00</strong> Frukost dagen efter i magasinet på Kuseboholm Gård för övernattande och icke-övernattande gäster.</div>
+    </section>
+
+    <!-- Klädkod Section -->
+    <section id="kladkod" class="kladkod-section">
+        <h2>Klädkod</h2>
+        <p><strong>Kavaj.</strong></p>
+        <p><strong>För män:</strong> Kavaj med matchande kostymbyxor.</p>
+        <p><strong>För kvinnor:</strong> Finare klänning, över knä, eller kjol med blus eller topp.</p>
+        <h3>Inspiration</h3>
+        <div class="inspiration-gallery">
+            <img src="images/inspiration/image21.jpeg" alt="Inspiration 1">
+            <img src="images/inspiration/image22.jpeg" alt="Inspiration 2">
+            <img src="images/inspiration/image23.jpeg" alt="Inspiration 3">
+            <img src="images/inspiration/image24.jpeg" alt="Inspiration 4">
+        </div>
+    </section>
+
+    <!-- Vår Historia Section -->
+    <section id="historia" class="historia-section">
+        <h2>Vår historia</h2>
+
+        <div class="historia-person">
+            <h3>Ur Jontes perspektiv</h3>
+
+            <p class="historia-question">Vad var dina tankar kvällen vi träffades?</p>
+            <p class="historia-answer">Det var en väldigt snygg tjej i en grön klänning med vita blommor som stod och dansade med sina kompisar på nattklubben Charlies. Jag tänkte att jag var tvungen att göra något speciellt för att hon skulle notera mig. Då plockade jag fram de berömda höfterna som alla har hört talas om.</p>
+
+            <p class="historia-question">Vilka egenskaper och kvaliteter blev du kär i?</p>
+            <p class="historia-answer">Jag blev kär i Jojjes höga energi, hennes lättsamhet och förmågan att ha lätt till skratt. Envisheten och hennes mål att lyckas. Jag blev även kär i hennes öppenhet och ärlighet.</p>
+
+            <p class="historia-question">När insåg du att det var vi?</p>
+            <p class="historia-answer">Efter några veckor. Jojje bodde hos mig i princip sedan vi träffades.</p>
+        </div>
+
+        <div class="historia-person">
+            <h3>Ur Jojjes perspektiv</h3>
+
+            <p class="historia-question">Vad var dina tankar kvällen vi träffades?</p>
+            <p class="historia-answer">Tyvärr kommer jag inte ihåg det men dagen efter hade jag fått en följareförfråga på Instagram och jag frågade Sara och Amanda om de visste vem det var och då berättade de för mig om killen som kommit fram på dansgolvet. Mer och mer mindes jag att någon kom fram och utbrast: "Tjejer, tjejer, kolla in de här höfterna" samtidigt som han svängde med höfterna.</p>
+
+            <p class="historia-question">Vilka egenskaper och kvaliteter blev du kär i?</p>
+            <p class="historia-answer">Jag blev kär i Jontes lugn och hur trygg med honom jag kände mig så snabbt. Jag kände att jag kunde lita på honom. Jag blev kär i hans omtänksamhet, hur rolig han är och hur han alltid ser mig. Jag blev kär i hans lättsamhet, att han alltid har nära till skratt och att han alltid får mig att känna mig älskad.</p>
+
+            <p class="historia-question">När insåg du att det var vi?</p>
+            <p class="historia-answer">Det var nog egentligen ganska tidigt men jag var så inställd på att det bara skulle vara en sommarflirt så det tog ett tag för mig att erkänna det för mig själv. Jag var dock helt säker när Jonte hade skjutsat tillbaka mig till Örebro när höstterminen skulle börja. Han stod och grät i min hall. Mina tårar var redan slut innan vi hade lämnat Linköping.</p>
+        </div>
+    </section>
+
     <footer>
         <p>Vi ser fram emot att fira vår stora dag med dig!</p>
         <button id="helmet-button" class="helmet-button">🏎️</button>
