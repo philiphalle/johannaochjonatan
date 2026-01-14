@@ -406,6 +406,35 @@ header p {
     margin-top: 15px;
 }
 
+.toastmaster-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 5px;
+}
+
+.toastmaster-info h3 {
+    color: #222;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.toastmaster-info p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.toastmaster-info a {
+    color: #222;
+    text-decoration: underline;
+}
+
+.toastmaster-info a:hover {
+    color: #666;
+}
+
 /* Footer */
 footer {
     background: white;
