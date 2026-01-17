@@ -453,12 +453,6 @@ footer p {
     margin-bottom: 0;
 }
 
-.car-arrow {
-    display: block;
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
 /* Helmet Button */
 .helmet-button {
     width: 50px;
@@ -567,7 +561,8 @@ body.menu-open {
     }
 
     .carousel-text {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        white-space: nowrap;
     }
 
     .menu {
