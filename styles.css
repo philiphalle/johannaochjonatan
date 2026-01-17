@@ -550,7 +550,11 @@ body.menu-open {
     }
 
     .carousel {
-        animation: scroll 12s linear infinite;
+        animation: scroll 18s linear infinite;
+    }
+
+    .carousel-text {
+        font-size: 3rem;
     }
 
     .menu {
