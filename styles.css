@@ -553,11 +553,28 @@ body.menu-open {
     }
 
     .carousel-section {
-        height: 500px;
+        height: 550px;
     }
 
     .carousel {
-        animation: scroll 18s linear infinite;
+        animation: scrollMobile 40s linear infinite;
+    }
+
+    .carousel img {
+        height: 500px;
+        width: 350px;
+        margin: auto -10px;
+        padding: 6px 6px 20px 6px;
+    }
+
+    @keyframes scrollMobile {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            /* 9 images × (350px width - 20px overlap) = 2970px */
+            transform: translateX(-2970px);
+        }
     }
 
     .carousel-text {
