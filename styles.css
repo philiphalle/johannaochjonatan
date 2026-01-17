@@ -446,6 +446,19 @@ footer p {
     margin-bottom: 15px;
 }
 
+.car-hint {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: -15px;
+    margin-bottom: 0;
+}
+
+.car-arrow {
+    display: block;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
 /* Helmet Button */
 .helmet-button {
     width: 50px;
