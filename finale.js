@@ -296,32 +296,97 @@
     function runChampagne() {
         const maxBubbles = isSmall() ? 55 : 95;
         const spawnRate = isSmall() ? 11 : 18; // bubblor per sekund
-        const MAX_FILL = 0.62;   // hur stor del av skärmen som är fylld när glaset är fullt
-        const POUR_ANGLE = 20;   // grader innan champagnen börjar rinna över kanten
+        const MAX_FILL = 0.58;  // andel av skärmytan när glaset är fullt
 
         let spawnDebt = 0;
         let popped = false;
-        let liquid = 0;      // 0-1, nuvarande nivå
-        let tilt = 0;        // grader, positivt = höger sida ned
-        let tiltTarget = 0;
+        let fill = 0;           // 0-1, hur mycket champagne som är kvar
+        let gAngle = 0;         // tyngdkraftens riktning i skärmplanet, 0 = rakt ned
+        let gTarget = 0;
 
-        // Skärmen är glaset: ytan lutar tvärtemot hur enheten hålls.
-        function surfaceY(x) {
-            const base = H - liquid * H * MAX_FILL;
-            return base - (x - W / 2) * Math.tan((tilt * Math.PI) / 180);
+        /* Skärmen är glaset, sett rakt framifrån. Mynningen är telefonens
+           överkant - precis som på ett riktigt glas rinner det ut först när
+           man lutar så mycket att vätskan når upp till kanten. */
+
+        // Klipper skärmrutan mot halvplanet n·p >= d, alltså den del som är "under" ytan.
+        function clipRect(nx, ny, d) {
+            const rect = [[0, 0], [W, 0], [W, H], [0, H]];
+            const out = [];
+            for (let i = 0; i < 4; i++) {
+                const a = rect[i];
+                const b = rect[(i + 1) % 4];
+                const da = nx * a[0] + ny * a[1] - d;
+                const db = nx * b[0] + ny * b[1] - d;
+                if (da >= 0) out.push(a);
+                if ((da >= 0) !== (db >= 0)) {
+                    const t = da / (da - db);
+                    out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+                }
+            }
+            return out;
         }
 
-        function spawnBubble(y) {
-            const x = rand(0, W);
-            bubbles.push({
-                x: x,
-                drawX: x,
-                y: y === undefined ? H - rand(0, 40) : y,
-                r: rand(9, 34) * S,
-                vy: -rand(55, 150) * S,
-                phase: rand(0, Math.PI * 2),
-                wob: rand(10, 30) * S
-            });
+        function polyArea(p) {
+            let a = 0;
+            for (let i = 0; i < p.length; i++) {
+                const q = p[(i + 1) % p.length];
+                a += p[i][0] * q[1] - q[0] * p[i][1];
+            }
+            return Math.abs(a) / 2;
+        }
+
+        // Hittar ytans läge så att vätskans area motsvarar volymen.
+        // Arean minskar när d växer, så en enkel halvering räcker.
+        function levelFor(nx, ny, volume) {
+            let lo = Infinity;
+            let hi = -Infinity;
+            const rect = [[0, 0], [W, 0], [W, H], [0, H]];
+            for (let i = 0; i < 4; i++) {
+                const v = nx * rect[i][0] + ny * rect[i][1];
+                if (v < lo) lo = v;
+                if (v > hi) hi = v;
+            }
+            for (let i = 0; i < 22; i++) {
+                const mid = (lo + hi) / 2;
+                if (polyArea(clipRect(nx, ny, mid)) > volume) lo = mid;
+                else hi = mid;
+            }
+            return (lo + hi) / 2;
+        }
+
+        // Hur stor del av överkanten som vätskan täcker - där rinner det ut.
+        function spillSpan(poly) {
+            let x0 = Infinity;
+            let x1 = -Infinity;
+            for (let i = 0; i < poly.length; i++) {
+                if (poly[i][1] <= 0.5) {
+                    if (poly[i][0] < x0) x0 = poly[i][0];
+                    if (poly[i][0] > x1) x1 = poly[i][0];
+                }
+            }
+            return x1 > x0 ? { x0: x0, x1: x1, len: x1 - x0 } : null;
+        }
+
+        function spawnBubble(nx, ny, d, deepest) {
+            // Bubblor bildas nere i vätskan, inte uppe vid ytan.
+            for (let tries = 0; tries < 8; tries++) {
+                const x = rand(0, W);
+                const y = rand(0, H);
+                const depth = nx * x + ny * y - d;
+                if (depth > (deepest - d) * 0.35) {
+                    bubbles.push({
+                        x: x,
+                        y: y,
+                        drawX: x,
+                        drawY: y,
+                        r: rand(9, 34) * S,
+                        speed: rand(55, 150) * S,
+                        phase: rand(0, Math.PI * 2),
+                        wob: rand(10, 30) * S
+                    });
+                    return;
+                }
+            }
         }
 
         function splash(x, y, count, size) {
@@ -376,94 +441,126 @@
             }
         }
 
-        function drawLiquid() {
-            if (liquid <= 0.004) return;
-            const yL = surfaceY(0);
-            const yR = surfaceY(W);
+        function drawLiquid(poly, nx, ny, d, deepest) {
+            if (poly.length < 3) return;
 
-            const grad = ctx.createLinearGradient(0, Math.min(yL, yR), 0, H);
+            // Gradienten löper från ytan ned mot vätskans djupaste punkt.
+            const depth = deepest - d;
+            const grad = ctx.createLinearGradient(
+                nx * d, ny * d,
+                nx * (d + depth), ny * (d + depth)
+            );
             grad.addColorStop(0, "rgba(255, 214, 120, 0.55)");
-            grad.addColorStop(1, "rgba(214, 150, 40, 0.75)");
+            grad.addColorStop(1, "rgba(214, 150, 40, 0.78)");
 
             ctx.beginPath();
-            ctx.moveTo(0, yL);
-            ctx.lineTo(W, yR);
-            ctx.lineTo(W, H + 4);
-            ctx.lineTo(0, H + 4);
+            ctx.moveTo(poly[0][0], poly[0][1]);
+            for (let i = 1; i < poly.length; i++) ctx.lineTo(poly[i][0], poly[i][1]);
             ctx.closePath();
             ctx.fillStyle = grad;
             ctx.fill();
 
-            // Skummet på ytan.
-            ctx.beginPath();
-            ctx.moveTo(0, yL);
-            ctx.lineTo(W, yR);
+            // Skummet ritas bara längs själva ytan, inte längs glasets kanter.
             ctx.strokeStyle = "rgba(255, 248, 224, 0.9)";
             ctx.lineWidth = 3;
-            ctx.stroke();
+            for (let i = 0; i < poly.length; i++) {
+                const a = poly[i];
+                const b = poly[(i + 1) % poly.length];
+                const onSurface =
+                    Math.abs(nx * a[0] + ny * a[1] - d) < 0.6 &&
+                    Math.abs(nx * b[0] + ny * b[1] - d) < 0.6;
+                if (onSurface) {
+                    ctx.beginPath();
+                    ctx.moveTo(a[0], a[1]);
+                    ctx.lineTo(b[0], b[1]);
+                    ctx.stroke();
+                }
+            }
         }
 
         startLoop(function (dt) {
             ctx.clearRect(0, 0, W, H);
 
-            // Mjuk följning så att lutningen inte hackar.
-            tilt += (tiltTarget - tilt) * Math.min(1, dt * 7);
+            // Mjuk följning längs kortaste vägen runt cirkeln.
+            let diff = gTarget - gAngle;
+            while (diff > Math.PI) diff -= Math.PI * 2;
+            while (diff < -Math.PI) diff += Math.PI * 2;
+            gAngle += diff * Math.min(1, dt * 7);
+
+            const nx = Math.sin(gAngle);
+            const ny = Math.cos(gAngle);
+
+            // Djupaste hörnet i tyngdkraftens riktning.
+            let deepest = -Infinity;
+            const rect = [[0, 0], [W, 0], [W, H], [0, H]];
+            for (let i = 0; i < 4; i++) {
+                const v = nx * rect[i][0] + ny * rect[i][1];
+                if (v > deepest) deepest = v;
+            }
+
+            const d = levelFor(nx, ny, fill * MAX_FILL * W * H);
+            const poly = clipRect(nx, ny, d);
+            const spill = fill > 0.001 ? spillSpan(poly) : null;
 
             if (popped) {
-                const tipped = Math.abs(tilt) > POUR_ANGLE;
+                if (spill) {
+                    // Vätskan når mynningen: den rinner ut och nivån sjunker.
+                    const rate = (spill.len / W) * 0.85;
+                    fill = Math.max(0, fill - rate * dt);
 
-                if (tipped && liquid > 0) {
-                    // Häller ut: nivån sjunker och droppar sprutar över kanten.
-                    const over = Math.min(1, (Math.abs(tilt) - POUR_ANGLE) / 30);
-                    liquid = Math.max(0, liquid - over * 0.5 * dt);
-
-                    const edgeX = tilt > 0 ? W : 0;
-                    const dir = tilt > 0 ? 1 : -1;
-                    const edgeY = surfaceY(edgeX);
-                    const drops = Math.round(over * 70 * dt);
+                    const drops = Math.round(rate * 130 * dt);
                     for (let i = 0; i < drops; i++) {
+                        const x = rand(spill.x0, spill.x1);
+                        const speed = rand(120, 380) * S;
                         particles.push({
-                            x: edgeX,
-                            y: edgeY + rand(-14, 14),
-                            vx: dir * rand(90, 330) * S,
-                            vy: rand(-70, 90) * S,
+                            x: x,
+                            y: rand(-6, 6),
+                            vx: nx * speed + rand(-40, 40),
+                            vy: ny * speed + rand(-40, 40),
                             life: rand(0.5, 1.1),
                             maxLife: 1.1,
                             size: rand(2, 5) * S,
                             color: GOLD[Math.floor(Math.random() * GOLD.length)]
                         });
                     }
-                } else if (!tipped && liquid < 1) {
-                    // Håll enheten rak så fylls glaset på igen.
-                    liquid = Math.min(1, liquid + 0.42 * dt);
+                } else if (fill < 1) {
+                    // Håll glaset rakt så fylls det på igen.
+                    fill = Math.min(1, fill + 0.42 * dt);
                 }
 
-                // Bubblor bildas bara i vätskan.
-                spawnDebt += spawnRate * dt * liquid;
+                spawnDebt += spawnRate * dt * fill;
                 while (spawnDebt >= 1) {
-                    if (bubbles.length < maxBubbles) spawnBubble();
+                    if (bubbles.length < maxBubbles) spawnBubble(nx, ny, d, deepest);
                     spawnDebt -= 1;
                 }
             }
 
-            drawLiquid();
+            drawLiquid(poly, nx, ny, d, deepest);
 
-            // Bubblorna stiger och spricker när de når ytan.
+            // Bubblorna stiger rakt uppåt i vätskan och spricker vid ytan.
             for (let i = bubbles.length - 1; i >= 0; i--) {
                 const b = bubbles[i];
                 b.phase += dt * 2.2;
-                b.y += b.vy * dt;
-                const x = b.x + Math.sin(b.phase) * b.wob;
-                b.drawX = x;
+                b.x -= nx * b.speed * dt;
+                b.y -= ny * b.speed * dt;
 
-                if (b.y - b.r < surfaceY(x) || b.y + b.r < -20) {
-                    if (b.y + b.r > 0) splash(x, b.y, 5, 2.4);
+                // Vingla i sidled, alltså vinkelrätt mot stigriktningen.
+                const sway = Math.sin(b.phase) * b.wob;
+                b.drawX = b.x - ny * sway;
+                b.drawY = b.y + nx * sway;
+
+                const depth = nx * b.drawX + ny * b.drawY - d;
+                const outside =
+                    b.drawX < -60 || b.drawX > W + 60 || b.drawY < -60 || b.drawY > H + 60;
+
+                if (depth < b.r || outside) {
+                    if (!outside) splash(b.drawX, b.drawY, 5, 2.4);
                     bubbles.splice(i, 1);
                     continue;
                 }
 
                 ctx.beginPath();
-                ctx.arc(x, b.y, b.r, 0, Math.PI * 2);
+                ctx.arc(b.drawX, b.drawY, b.r, 0, Math.PI * 2);
                 ctx.fillStyle = "rgba(255, 236, 178, 0.18)";
                 ctx.fill();
                 ctx.strokeStyle = "rgba(255, 248, 224, 0.8)";
@@ -471,7 +568,10 @@
                 ctx.stroke();
 
                 ctx.beginPath();
-                ctx.arc(x - b.r * 0.32, b.y - b.r * 0.34, Math.max(1, b.r * 0.2), 0, Math.PI * 2);
+                ctx.arc(
+                    b.drawX - b.r * 0.32, b.drawY - b.r * 0.34,
+                    Math.max(1, b.r * 0.2), 0, Math.PI * 2
+                );
                 ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
                 ctx.fill();
             }
@@ -509,13 +609,30 @@
 
         /* --- Luta enheten för att hälla --- */
 
+        // beta = framåt/bakåt, gamma = i sidled. Tillsammans ger de
+        // tyngdkraftens riktning i skärmens plan.
         function onOrient(e) {
-            if (e.gamma === null || e.gamma === undefined) return;
-            tiltTarget = Math.max(-50, Math.min(50, e.gamma));
+            if (e.beta === null || e.beta === undefined) return;
+            const beta = (e.beta * Math.PI) / 180;
+            const gamma = ((e.gamma || 0) * Math.PI) / 180;
+
+            const gx = Math.sin(gamma) * Math.cos(beta);
+            const gy = Math.sin(beta);
+            if (Math.abs(gx) < 0.02 && Math.abs(gy) < 0.02) return; // platt: ingen riktning
+
+            let angle = Math.atan2(gx, gy);
+
+            // Kompensera för att skärmen kan vara vriden mot enheten.
+            const screenAngle =
+                (window.screen && window.screen.orientation && window.screen.orientation.angle) || 0;
+            angle -= (screenAngle * Math.PI) / 180;
+
+            gTarget = angle;
         }
 
+        // På desktop finns ingen sensor: tyngdkraften pekar mot muspekaren.
         function onPointerTilt(e) {
-            tiltTarget = Math.max(-40, Math.min(40, (e.clientX / W - 0.5) * 70));
+            gTarget = Math.atan2(e.clientX - W / 2, e.clientY - H / 2);
         }
 
         function setHint(text) {
@@ -526,6 +643,7 @@
         const canOrient = typeof window.DeviceOrientationEvent !== "undefined";
         const needsPermission =
             canOrient && typeof window.DeviceOrientationEvent.requestPermission === "function";
+        const tiltText = "Luta telefonen framåt så rinner champagnen ut över kanten";
 
         if (needsPermission) {
             // iOS kräver att användaren själv säger ja till rörelsesensorn.
@@ -536,17 +654,17 @@
                         if (state === "granted") {
                             window.addEventListener("deviceorientation", onOrient);
                             tiltBtn.hidden = true;
-                            setHint("Luta telefonen så rinner champagnen ut");
+                            setHint(tiltText);
                         }
                     })
                     .catch(function () { /* ingen sensor, ingen skada skedd */ });
             };
         } else if (canOrient && isTouch()) {
             window.addEventListener("deviceorientation", onOrient);
-            after(1400, function () { setHint("Luta telefonen så rinner champagnen ut"); });
+            after(1400, function () { setHint(tiltText); });
         } else {
             window.addEventListener("pointermove", onPointerTilt);
-            after(1400, function () { setHint("Dra musen i sidled för att luta glaset"); });
+            after(1400, function () { setHint("För musen mot överkanten för att hälla"); });
         }
 
         // Klicka/tappa för att spräcka bubblor.
@@ -555,9 +673,9 @@
             for (let i = bubbles.length - 1; i >= 0; i--) {
                 const b = bubbles[i];
                 const dx = b.drawX - e.clientX;
-                const dy = b.y - e.clientY;
+                const dy = b.drawY - e.clientY;
                 if (Math.sqrt(dx * dx + dy * dy) < b.r + 18) {
-                    splash(b.drawX, b.y, 10, 3);
+                    splash(b.drawX, b.drawY, 10, 3);
                     bubbles.splice(i, 1);
                 }
             }
