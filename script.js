@@ -14,6 +14,8 @@ function updateCountdown() {
             `${days} dagar, ${hours} timmar, ${minutes} minuter, ${seconds} sekunder kvar`;
     } else {
         document.getElementById("countdown").innerHTML = "Bröllopsdagen är här!";
+        // Firandet drar igång i samma sekund som nedräkningen tar slut.
+        if (window.jjFinale) window.jjFinale.deadlineReached();
     }
 }
 

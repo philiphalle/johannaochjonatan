@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <script defer src="script.js"></script>
+    <script defer src="finale.js"></script>
     <meta property="og:title" content="Johanna & Jonatan - Vårt Bröllop">
     <meta property="og:description" content="Vi gifter oss den 15 augusti 2026 – Kom och fira med oss!">
     <meta property="og:image" content="https://philiphalle.github.io/johannaochjonatan/images/carousel/image0.jpeg">
@@ -164,8 +165,12 @@
 
     <footer>
         <p>Vi ser fram emot att fira vår stora dag med dig!</p>
-        <button id="helmet-button" class="helmet-button">🏎️</button>
+        <div class="footer-buttons">
+            <button id="helmet-button" class="helmet-button">🏎️</button>
+            <button id="finale-replay" class="finale-replay" aria-label="Spela upp firandet">🎆</button>
+        </div>
         <p class="car-hint">Klicka på bilen</p>
+        <p id="finale-hint" class="finale-hint" hidden>Klicka på fyrverkeriet för att fira igen</p>
         <audio id="race-song" src="audio/f1.mp3"></audio>
     </footer>
 
@@ -189,6 +194,38 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Finalen: firandet när nedräkningen når noll -->
+    <div id="finale" class="finale" aria-hidden="true">
+        <canvas id="finale-canvas"></canvas>
+        <div id="finale-gold" class="finale-gold"></div>
+
+        <!-- Pixelvigseln -->
+        <div class="finale-pixel">
+            <div class="finale-pixel-scene">
+                <div class="finale-char finale-char-left">
+                    <div class="finale-bubble" id="finale-bubble1">Ja!</div>
+                    <img src="images/pixel-jonatan.png" alt="Jonatan">
+                    <span class="finale-char-name">Jonatan</span>
+                </div>
+                <div class="finale-char finale-char-right">
+                    <div class="finale-bubble" id="finale-bubble2">Ja!</div>
+                    <img src="images/pixel-johanna.png" alt="Johanna">
+                    <span class="finale-char-name">Johanna</span>
+                </div>
+                <div class="finale-ring" id="finale-ring">💍</div>
+                <div class="finale-heart" id="finale-heart">❤️</div>
+            </div>
+        </div>
+
+        <!-- Champagnen -->
+        <div id="finale-bottle" class="finale-bottle">🍾</div>
+        <button id="finale-tilt" class="finale-tilt" hidden>📱 Aktivera lutning</button>
+        <p id="finale-tilt-hint" class="finale-tilt-hint" hidden></p>
+
+        <div id="finale-title" class="finale-title"></div>
+        <button id="finale-close" class="finale-close" aria-label="Stäng">&times;</button>
     </div>
 </body>
 </html>
