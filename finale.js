@@ -293,7 +293,7 @@
 
     /* ---------- Show 3: champagnen ---------- */
 
-    function runChampagne() {
+    function runChampagne(opts) {
         const maxBubbles = isSmall() ? 55 : 95;
         const spawnRate = isSmall() ? 11 : 18; // bubblor per sekund
         const MAX_FILL = 0.58;  // andel av skärmytan när glaset är fullt
@@ -605,7 +605,10 @@
             setTitle("Skål - de har sagt ja!", "15 augusti 2026");
             showTitle();
         });
-        after(22000, close);
+        // Startade besökaren den själv med replay-knappen får den stå kvar
+        // så länge man vill leka med hällandet - då stänger bara krysset.
+        // Kom den av sig själv stänger den också av sig själv.
+        if (!opts.gesture) after(22000, close);
 
         /* --- Luta enheten för att hälla --- */
 
@@ -779,7 +782,7 @@
 
         if (name === "fireworks") runFireworks();
         else if (name === "pixel") runPixel(opts);
-        else runChampagne();
+        else runChampagne(opts);
     }
 
     function close() {
